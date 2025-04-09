@@ -1,0 +1,75 @@
+@startuml
+
+' Interfaces
+interface ClienteDAO
+interface FacturaDAO
+interface ProductoDAO
+interface LineaFactDAO
+
+' Clase base DAOFactory
+abstract class DAOFactory {
+    +getClienteDAO(): ClienteDAO
+    +getFacturaDAO(): FacturaDAO
+    +getProductoDAO(): ProductoDAO
+    +getLineaProductoDAO(): LineaFacturaDAO
+}
+
+' Subclase MySQLDAOFactory
+class MySQLDAOFactory {
+    -Connection connection
+
+}
+
+DAOFactory <|-- MySQLDAOFactory
+
+' DAO concretos
+class ClienteMySQLDAO {
+    -Connection connection
+    +getAll(): List<Cliente>
+    +get(int id): Cliente
+    +save(Cliente cliente): Cliente
+    +update(Cliente cliente): Cliente
+    +delete(int id): bool
+}
+
+class FacturaMySQLDAO {
+    -Connection connection
+    +getAll(): List<Factura>
+    +get(int id): Factura
+    +save(Factura factura): Factura
+    +update(Factura factura): Factura
+    +delete(int id): bool
+    +getAllByCliente(int idCliente): List<Factura>
+}
+
+class ProductoMySQLDAO {
+    -Connection connection
+    +getAll(): List<Producto>
+    +get(int id): Producto
+    +save(Producto producto): Producto
+    +update(Producto producto): Producto
+    +delete(int id): bool
+}
+
+class LineaFacturaDAO {
+    -Connection connection
+    +getAllByFactura(): List<LineaFactura>
+    +get(int id): LineaFactura
+    +save(LineaFactura linea): LineaFactura
+    +update(LineaFactura linea): LineaFactura
+    +delete(int id): bool
+}
+
+' Relaciones de implementación
+ClienteMySQLDAO ..|> ClienteDAO
+FacturaMySQLDAO ..|> FacturaDAO
+ProductoMySQLDAO ..|> ProductoDAO
+LineaFacturaDAO ..|> LineaFactDAO
+
+' Relaciones con la factory
+MySQLDAOFactory --> ClienteMySQLDAO
+MySQLDAOFactory --> FacturaMySQLDAO
+MySQLDAOFactory --> ProductoMySQLDAO
+MySQLDAOFactory --> LineaFacturaDAO
+
+@enduml
