@@ -54,11 +54,17 @@ class ProductoMySQLDAO {
 class LineaFacturaDAO {
     -Connection connection
     +getAllByFactura(): List<LineaFactura>
+     +getAllByProducto(): List<LineaFactura>
     +get(int id): LineaFactura
     +save(LineaFactura linea): LineaFactura
     +update(LineaFactura linea): LineaFactura
     +delete(int id): bool
 }
+
+class Factura{}
+class Cliente{}
+class LineaFactura{}
+class Producto{}
 
 ' Relaciones de implementación
 ClienteMySQLDAO ..|> ClienteDAO
@@ -71,5 +77,13 @@ MySQLDAOFactory --> ClienteMySQLDAO
 MySQLDAOFactory --> FacturaMySQLDAO
 MySQLDAOFactory --> ProductoMySQLDAO
 MySQLDAOFactory --> LineaFacturaDAO
+
+
+'Para mi los metodos van en la interfaz...
+ProductoDAO ..> Producto
+LineaFactDAO ..> LineaFactura
+FacturaDAO ..> Factura
+ClienteDAO..>Cliente
+
 
 @enduml

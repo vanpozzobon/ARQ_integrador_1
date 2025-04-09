@@ -1,4 +1,4 @@
 package main.java.org.example.entities;
 
-public class Cliente {
+public class Producto {
 }
