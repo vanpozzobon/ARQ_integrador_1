@@ -1,15 +1,19 @@
 package main.java.org.example.factories;
 
 
+import main.java.org.example.DAO.interfaces.ClienteDAO;
+import main.java.org.example.DAO.interfaces.FacturaDAO;
+import main.java.org.example.DAO.interfaces.LineaFactDAO;
+import main.java.org.example.DAO.interfaces.ProductoDAO;
 
 public abstract class  DAOFactory {
 
     public static final int MYSQL_JDBC = 1;
     public static final int DERBY_JDBC = 2;
-    public abstract ClienteDao getClienteDAO();
+    public abstract ClienteDAO getClienteDAO();
     public abstract ProductoDAO getProductoDAO();
     public abstract FacturaDAO getFacturaDAO();
-    public abstract LineaProductoDAO getLineaProductoDAO();
+    public abstract LineaFactDAO getLineaFacturaDAO();
 
     public static DAOFactory getDAOFactory(int whichFactory) {
         switch (whichFactory) {

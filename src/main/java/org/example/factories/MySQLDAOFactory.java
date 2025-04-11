@@ -1,12 +1,17 @@
 package main.java.org.example.factories;
 
+import main.java.org.example.DAO.interfaces.ClienteDAO;
+import main.java.org.example.DAO.interfaces.FacturaDAO;
+import main.java.org.example.DAO.interfaces.LineaFactDAO;
+import main.java.org.example.DAO.interfaces.ProductoDAO;
+
 import java.sql.Connection;
 
 public class MySQLDAOFactory extends DAOFactory {
     Connection con;
     
     @Override
-    public ClienteDao getClienteDAO() {
+    public ClienteDAO getClienteDAO() {
         return null;
     }
 
@@ -21,7 +26,8 @@ public class MySQLDAOFactory extends DAOFactory {
     }
 
     @Override
-    public LineaProductoDAO getLineaProductoDAO() {
+    public LineaFactDAO getLineaFacturaDAO() {
         return null;
     }
+
 }

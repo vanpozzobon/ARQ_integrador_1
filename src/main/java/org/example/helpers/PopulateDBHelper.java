@@ -1,5 +1,10 @@
 package main.java.org.example.helpers;
 
+import main.java.org.example.entities.Cliente;
+import main.java.org.example.entities.Factura;
+import main.java.org.example.entities.LineaFactura;
+import main.java.org.example.entities.Producto;
+import main.java.org.example.factories.DAOFactory;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -7,53 +12,52 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.List;
 
 /**
- * CSVService es un servicio que permite leer archivos CSV y convertirlos en objetos Java retornando una lista de objetos.
+ * PopulateDBHelper permite cargar los datos de los archivos CSV en la base de datos.
  */
 public class PopulateDBHelper {
+    private DAOFactory daoFactory;
 
-    /**
-     * Recupera los registros del archivo CSV retornando un iterador de elementos CSVRecord.
-     * Los elementos CSVRecord permiten acceder a la informacion contenida de forma indexada
-     * @param archivo nombre del archivo CSV que se desea leer
-     * @return Iterador de elementos CSVRecord.
-     * @throws IOException
-     */
-    private Iterable<CSVRecord> getData(String archivo) throws IOException {
-        String path = "src\\main\\resources\\" + archivo;
-        Reader in = new FileReader(path);
-        String[] header = {};  // Puedes configurar tu encabezado personalizado aquí si es necesario
-        CSVParser csvParser = CSVFormat.EXCEL.withHeader(header).parse(in);
-
-        Iterable<CSVRecord> records = csvParser.getRecords();
-        return records;
+    public PopulateDBHelper(DAOFactory daoFactory) {
+        this.daoFactory = daoFactory;
     }
 
     /**
-     * Orquestador que permite cargar todos los tipos de archivos CSV que contiene el sistema
+     * Carga los datos de los archivos CSV en la base de datos.
+     * Los archivos CSV deben estar en la carpeta src/main/resources
+     * Obtiene la lista de clientes, productos, facturas y lineas de factura y los guarda en la base de datos.
      */
-    public void cargarArchivosCSV(){
-        this.cargarArchivoClientes();
-        this.cargarArchivoProductos();
-        this.cargarArchivoFacturas();
-        this.cargarArchivoFacturasProductos();
+    public void cargarArchivosCSV() {
+        try {
+            CSVHelper csvHelper = new CSVHelper(this.daoFactory);
+            List<Cliente> clientes = csvHelper.getClientesFromCSV("clientes.csv");
+            int agregados = 0;
+            for (Cliente cliente : clientes) {
+                daoFactory.getClienteDAO().save(cliente);
+                agregados++;
+            }
+            List<Producto> productos = csvHelper.getProductosFromCSV("productos.csv");
+            for (Producto producto : productos) {
+                daoFactory.getProductoDAO().save(producto);
+                agregados++;
+            }
+            List<Factura> facturas = csvHelper.getFacturasFromCSV("facturas.csv");
+            for (Factura factura : facturas) {
+                daoFactory.getFacturaDAO().save(factura);
+                agregados++;
+            }
+            List<LineaFactura> lineasFactura = csvHelper.getLineaFacturaFromCSV("facturas-productos.csv");
+            for (LineaFactura lineaFactura : lineasFactura) {
+                daoFactory.getLineaFacturaDAO().save(lineaFactura);
+                agregados++;
+            }
+            System.out.println("Se han agregado " + agregados + " registros a la base de datos.");
+        } catch (IOException e) {
+            System.out.println("Error al cargar los archivos CSV: " + e.getMessage());
+        }
     }
 
-    /**
-     * Carga el archivo CSV correspondiente a los Clientes
-     * Archivo clientes.csv
-     */
-    private void cargarArchivoClientes(){
 
-    }
-    private void cargarArchivoProductos(){
-
-    }
-    private void cargarArchivoFacturas(){
-
-    }
-    private void cargarArchivoFacturasProductos(){
-
-    }
 }
