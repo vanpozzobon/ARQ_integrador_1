@@ -13,7 +13,7 @@ public interface LineaFactDAO {
 
     LineaFactura getByIdFactura(int idFactura);
 
-    LineaFactura save(LineaFactura lineaFactura);
+    void save(LineaFactura lineaFactura);
 
     LineaFactura update(LineaFactura lineaFactura);
 
