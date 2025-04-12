@@ -7,9 +7,9 @@ import java.util.List;
 public interface FacturaDAO {
     List<Factura> getAll();
 
-    Factura getFacturaId(int IdFactura);
+    Factura getFacturaId(int idFactura);
 
-    Factura save(Factura Factura);
+    void save(Factura factura);
 
     Factura update(Factura Factura);
 

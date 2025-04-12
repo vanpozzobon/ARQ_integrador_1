@@ -78,7 +78,7 @@ public class CSVHelper {
             if (record.size() >= 3) {
                 int idProducto = Integer.parseInt(record.get(0));
                 String nombre = record.get(1);
-                double precio = Double.parseDouble(record.get(2));
+                float precio = Float.parseFloat(record.get(2));
                 Producto producto = new Producto(idProducto, nombre, precio);
                 productos.add(producto);
             }

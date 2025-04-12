@@ -38,11 +38,13 @@ public class PopulateDBHelper {
                 daoFactory.getClienteDAO().save(cliente);
                 agregados++;
             }
+            System.out.println("Se han agregado " + agregados + " registros CLIENTES");
             List<Producto> productos = csvHelper.getProductosFromCSV("productos.csv");
             for (Producto producto : productos) {
                 daoFactory.getProductoDAO().save(producto);
                 agregados++;
             }
+            System.out.println("Se han agregado " + agregados + " registros PRODUCTOS");
             List<Factura> facturas = csvHelper.getFacturasFromCSV("facturas.csv");
             for (Factura factura : facturas) {
                 daoFactory.getFacturaDAO().save(factura);

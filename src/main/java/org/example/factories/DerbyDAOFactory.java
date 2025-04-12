@@ -9,6 +9,7 @@ import java.sql.Connection;
 
 public class DerbyDAOFactory extends DAOFactory {
     Connection con;
+    private static DerbyDAOFactory instance = null;
 
     @Override
     public ClienteDAO getClienteDAO() {
@@ -28,5 +29,12 @@ public class DerbyDAOFactory extends DAOFactory {
     @Override
     public LineaFactDAO getLineaFacturaDAO() {
         return null;
+    }
+
+    public static synchronized DerbyDAOFactory getInstance() {
+        if (instance == null) {
+            instance = new DerbyDAOFactory();
+        }
+        return instance;
     }
 }
